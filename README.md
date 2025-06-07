@@ -27,8 +27,8 @@ A **futuristic AI-powered translator and customer support tool** that:
 
 ## 📸 Preview
 
-![App Screenshot](langtran_img1.png)
-![App Screenshot](langtran_img2.png)
+![App Screenshot](languagetran_1.png)
+![App Screenshot](languagetran_2.png)
 
 ---
 
