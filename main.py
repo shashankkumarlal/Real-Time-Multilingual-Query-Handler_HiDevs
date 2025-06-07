@@ -1,9 +1,5 @@
-#@title 🚀 Neon Multilingual AI Translator by SHASHANK
 
-# 1. Install dependencies
-#!pip install --quiet streamlit langchain langchain_groq langdetect
-
-# 2. Imports and setup
+# 1. Imports and setup
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain.schema import SystemMessage, HumanMessage
@@ -11,16 +7,16 @@ from langdetect import detect
 import pandas as pd
 from datetime import datetime
 
-# 3. Initialize LLaMA 3 client
+# 2. Initialize LLaMA 3 client
 import os
-GROQ_API_KEY = os.getenv("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")
+GROQ_API_KEY = os.getenv("ENTER YOUR GROQ API KEY")
 llm = ChatGroq(
     temperature=0.2,
     groq_api_key=GROQ_API_KEY,
     model_name="llama3-70b-8192"
 )
 
-# 4. Neon CSS styling
+# 3. Neon CSS styling
 NEON_STYLE = """
 <style>
 body {
@@ -42,7 +38,7 @@ input, textarea {
 </style>
 """
 
-# 5. Streamlit App UI and Logic
+# 4. Streamlit App UI and Logic
 def main():
     st.set_page_config(page_title="Neon Translator by SHASHANK", page_icon="🌐")
     st.markdown(NEON_STYLE, unsafe_allow_html=True)
@@ -122,10 +118,7 @@ def main():
     else:
         st.info("Enter a message to begin translation and support.")
 
-# 6. Run app
+# 5. Run app
 if __name__ == "__main__":
     main()
-#!pip install streamlit langchain langchain_groq
-#!npm install -g localtunnel
-#!curl https://loca.lt/mytunnelpassword
-#!streamlit run app.py & npx localtunnel --port 8501
+
