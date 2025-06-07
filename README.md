@@ -15,8 +15,8 @@ pip install -r requirements.txt
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 A **futuristic AI-powered translator and customer support tool** that:
-- 🧠 Detects any language
-- 🌐 Translates to English using Groq-hosted **LLaMA 3**
+- 🧠 Detects any language automatically or language can be chosen among 110+ languages.
+- 🌐 Translates to English or 110+ languages using Groq-hosted **LLaMA 3**
 - 🤖 Responds with a friendly AI message
 - 🔁 Translates the reply back to the customer's native language
 - 🗂️ Logs everything with timestamps and ratings
