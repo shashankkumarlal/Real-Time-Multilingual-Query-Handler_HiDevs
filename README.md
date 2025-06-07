@@ -50,8 +50,17 @@ A **futuristic AI-powered translator and customer support tool** that:
 ```bash
 git clone https://github.com/shashankkumarlal/real-time-multilingual-translator.git
 cd real-time-multilingual-translator
+```
+### 2.Install Dependencies
+```bash
 pip install streamlit langchain langchain_groq langdetect pandas
+```
+### 3.Set Up Your Groq API Key
+```bash
 export GROQ_API_KEY=your_groq_api_key_here
+```
+### 4.Run the App
+```bash
 streamlit run main.py
 ```
 TO RUN IN CODESPACE:
