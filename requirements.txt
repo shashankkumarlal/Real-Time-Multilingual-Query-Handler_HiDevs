@@ -1,1 +1,5 @@
-# Add your project dependencies here
+streamlit
+langchain
+langchain-groq
+langdetect
+pandas
