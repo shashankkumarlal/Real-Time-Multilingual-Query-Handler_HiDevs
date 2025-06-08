@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 # 2. Initialize LLaMA 3 client
-GROQ_API_KEY = os.getenv("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")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 llm = ChatGroq(
     temperature=0.2,
     groq_api_key=GROQ_API_KEY,
