@@ -7,157 +7,50 @@ import pandas as pd
 from datetime import datetime
 import os
 
-# 2. Initialize LLaMA 3 client
+# 2. Check and initialize LLaMA 3 client
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    st.set_page_config(page_title="Neon Translator Error", page_icon="🚫")
+    st.error("🚨 GROQ_API_KEY not found. Please add it in Streamlit Cloud: Manage App > Secrets.")
+    st.stop()
+
 llm = ChatGroq(
     temperature=0.2,
     groq_api_key=GROQ_API_KEY,
     model_name="llama3-70b-8192"
 )
 
-# Supported language codes and names (partial example, extend as needed)
+# 3. Supported language codes and names
 LANGUAGES = {
     "Auto Detect": "auto",
-    "Afrikaans": "af",
-    "Albanian": "sq",
-    "Amharic": "am",
-    "Arabic": "ar",
-    "Armenian": "hy",
-    "Azerbaijani": "az",
-    "Basque": "eu",
-    "Belarusian": "be",
-    "Bengali": "bn",
-    "Bosnian": "bs",
-    "Bulgarian": "bg",
-    "Catalan": "ca",
-    "Cebuano": "ceb",
-    "Chichewa": "ny",
-    "Chinese (Simplified)": "zh-CN",
-    "Chinese (Traditional)": "zh-TW",
-    "Corsican": "co",
-    "Croatian": "hr",
-    "Czech": "cs",
-    "Danish": "da",
-    "Dutch": "nl",
     "English": "en",
-    "Esperanto": "eo",
-    "Estonian": "et",
-    "Filipino": "tl",
-    "Finnish": "fi",
-    "French": "fr",
-    "Frisian": "fy",
-    "Galician": "gl",
-    "Georgian": "ka",
-    "German": "de",
-    "Greek": "el",
-    "Gujarati": "gu",
-    "Haitian Creole": "ht",
-    "Hausa": "ha",
-    "Hawaiian": "haw",
-    "Hebrew": "he",
     "Hindi": "hi",
-    "Hmong": "hmn",
-    "Hungarian": "hu",
-    "Icelandic": "is",
-    "Igbo": "ig",
-    "Indonesian": "id",
-    "Irish": "ga",
-    "Italian": "it",
-    "Japanese": "ja",
-    "Javanese": "jw",
-    "Kannada": "kn",
-    "Kazakh": "kk",
-    "Khmer": "km",
-    "Kinyarwanda": "rw",
-    "Korean": "ko",
-    "Kurdish (Kurmanji)": "ku",
-    "Kyrgyz": "ky",
-    "Lao": "lo",
-    "Latin": "la",
-    "Latvian": "lv",
-    "Lithuanian": "lt",
-    "Luxembourgish": "lb",
-    "Macedonian": "mk",
-    "Malagasy": "mg",
-    "Malay": "ms",
-    "Malayalam": "ml",
-    "Maltese": "mt",
-    "Maori": "mi",
-    "Marathi": "mr",
-    "Mongolian": "mn",
-    "Myanmar (Burmese)": "my",
-    "Nepali": "ne",
-    "Norwegian": "no",
-    "Nyanja": "ny",
-    "Odia (Oriya)": "or",
-    "Pashto": "ps",
-    "Persian": "fa",
-    "Polish": "pl",
-    "Portuguese": "pt",
-    "Punjabi": "pa",
-    "Romanian": "ro",
-    "Russian": "ru",
-    "Samoan": "sm",
-    "Scots Gaelic": "gd",
-    "Serbian": "sr",
-    "Sesotho": "st",
-    "Shona": "sn",
-    "Sindhi": "sd",
-    "Sinhala (Sinhalese)": "si",
-    "Slovak": "sk",
-    "Slovenian": "sl",
-    "Somali": "so",
     "Spanish": "es",
-    "Sundanese": "su",
-    "Swahili": "sw",
-    "Swedish": "sv",
-    "Tajik": "tg",
+    "French": "fr",
+    "German": "de",
+    "Chinese (Simplified)": "zh-CN",
+    "Arabic": "ar",
+    "Bengali": "bn",
+    "Marathi": "mr",
     "Tamil": "ta",
-    "Tatar": "tt",
     "Telugu": "te",
-    "Thai": "th",
-    "Turkish": "tr",
-    "Turkmen": "tk",
-    "Ukrainian": "uk",
+    "Gujarati": "gu",
+    "Kannada": "kn",
+    "Malayalam": "ml",
+    "Punjabi": "pa",
+    "Odia (Oriya)": "or",
     "Urdu": "ur",
-    "Uyghur": "ug",
-    "Uzbek": "uz",
-    "Vietnamese": "vi",
-    "Welsh": "cy",
-    "Xhosa": "xh",
-    "Yiddish": "yi",
-    "Yoruba": "yo",
-    "Zulu": "zu",
-
-    # Additional Indian languages / dialects (some without official ISO 639-1 but used here):
     "Assamese": "as",
-    "Bodo": "brx",
-    "Dogri": "doi",
-    "Konkani": "kok",
     "Maithili": "mai",
-    "Manipuri (Meitei)": "mni",
-    "Santhali": "sat",
-    "Sindhi": "sd",
-    "Tulu": "tcy",
-    "Kashmiri": "ks",
-    "Nepali (India)": "ne-IN",
-    "Bhili/Bhilodi": "bhb",
-    "Chhattisgarhi": "hne",
-    "Garhwali": "gbm",
-    "Haryanvi": "bgc",
-    "Khandeshi": "khn",
-    "Magahi": "mag",
-    "Marwari": "mwr",
-    "Mundari": "unr",
-    "Angika": "anp",
+    "Sanskrit": "sa",
+    "Nepali": "ne",
     "Santali": "sat",
-    "Bishnupriya Manipuri": "bpy",
-
-    # Add more dialects or regional Indian languages as needed...
+    "Konkani": "kok",
+    "Tulu": "tcy",
+    # Add more as needed...
 }
 
-
-# 3. Neon CSS styling
+# 4. Neon CSS styling
 NEON_STYLE = """
 <style>
 body {
@@ -179,7 +72,7 @@ input, textarea, select {
 </style>
 """
 
-# 4. Streamlit App UI and Logic
+# 5. Main Streamlit App Logic
 def main():
     st.set_page_config(page_title="Neon Translator by SHASHANK", page_icon="🌐")
     st.markdown(NEON_STYLE, unsafe_allow_html=True)
@@ -187,99 +80,88 @@ def main():
 
     st.markdown(
         """
-        Type your customer query in any language. This AI will:
-        1. Detect language (if Auto Detect selected)
-        2. Translate from input language to output language
-        3. Respond in the output language
-        4. Log interaction with time
+        This AI tool helps customer service reps translate and respond to queries in multiple languages:
+
+        1. Detects input language (if Auto Detect is selected)
+        2. Translates input → English for reasoning
+        3. Gets AI response
+        4. Translates response to desired output language
+        5. Logs interaction
         """
     )
 
-    # Language selection dropdowns with search support
-    input_lang_name = st.selectbox(
-        "🈯 Select input language (or Auto Detect):",
-        options=list(LANGUAGES.keys()),
-        index=0,
-        help="If Auto Detect is selected, language will be detected automatically."
-    )
-    output_lang_name = st.selectbox(
-        "🈳 Select output language:",
-        options=[lang for lang in LANGUAGES.keys() if lang != "Auto Detect"],
-        index=0,
-        help="Select the language you want to translate and respond in."
-    )
+    # Language selection
+    input_lang_name = st.selectbox("🈯 Select input language (or Auto Detect):", list(LANGUAGES.keys()), index=0)
+    output_lang_name = st.selectbox("🈳 Select output language:", [lang for lang in LANGUAGES.keys() if lang != "Auto Detect"])
 
-    user_query = st.text_area("💬 Enter your customer query:", height=150)
+    # User input
+    user_query = st.text_area("📝 Enter customer query:")
+    submit = st.button("🌐 Translate & Respond")
 
-    if user_query.strip():
-        # Detect language if Auto Detect selected, else use chosen language
-        if input_lang_name == "Auto Detect":
-            detected_lang_code = detect(user_query)
-            st.write(f"🈶 Detected Input Language: `{detected_lang_code}`")
-            input_lang_code = detected_lang_code
-        else:
-            input_lang_code = LANGUAGES[input_lang_name]
-            st.write(f"🈶 Selected Input Language: `{input_lang_code}`")
-
+    if submit and user_query.strip():
+        input_lang_code = LANGUAGES[input_lang_name]
         output_lang_code = LANGUAGES[output_lang_name]
 
-        with st.spinner("Translating and responding..."):
+        # Detect input language if needed
+        if input_lang_code == "auto":
             try:
-                # Translate input query to output language if input != output
-                if input_lang_code != output_lang_code:
-                    translation_prompt = [
-                        SystemMessage(content=f"Translate the following text from {input_lang_name} to {output_lang_name}:"),
-                        HumanMessage(content=user_query)
-                    ]
-                    translated_text = llm.invoke(translation_prompt).content.strip()
-                else:
-                    # If input and output languages are same, no translation needed
-                    translated_text = user_query
-
-                # Generate friendly support reply in output language
-                reply_prompt = [
-                    SystemMessage(content=f"You're a friendly support AI. Reply to this message in {output_lang_name}."),
-                    HumanMessage(content=translated_text)
-                ]
-                reply_text = llm.invoke(reply_prompt).content.strip()
-
-            except Exception as e:
-                st.error(f"Error: {e}")
+                input_lang_code = detect(user_query)
+                st.info(f"🌍 Detected language: `{input_lang_code}`")
+            except:
+                st.error("Language detection failed. Please try manually selecting the language.")
                 return
 
-        st.subheader(f"🔤 Translated Message ({output_lang_name}):")
-        st.success(translated_text)
+        # Construct prompt in English
+        translation_prompt = f"""
+        Translate the following text from {input_lang_name} to English:
 
-        st.subheader(f"🤖 Support Reply ({output_lang_name}):")
-        st.info(reply_text)
+        {user_query}
+        """
 
-        st.markdown("---")
-        rating = st.slider("⭐ Rate the translation and reply quality:", 1, 5, 3)
-        if rating >= 4:
-            st.balloons()
-            st.success("Thanks for the great rating! 🚀")
+        translation_response = llm.invoke([HumanMessage(content=translation_prompt)])
+        english_text = translation_response.content.strip()
 
-        # Log the query and response
-        if "log" not in st.session_state:
-            st.session_state.log = []
-        st.session_state.log.append({
-            "Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "Original": user_query,
-            "InputLang": input_lang_code,
-            "OutputLang": output_lang_code,
-            "Translated": translated_text,
-            "Reply": reply_text,
-            "Rating": rating
-        })
+        # Generate response to English text
+        response_prompt = f"""
+        This is a customer support query: "{english_text}"
+        Respond politely and helpfully in English.
+        """
 
-        if st.button("📥 Download Log CSV"):
-            df = pd.DataFrame(st.session_state.log)
-            df.to_csv("translation_log.csv", index=False)
-            st.success("Saved as translation_log.csv ✅")
+        response_in_english = llm.invoke([HumanMessage(content=response_prompt)]).content.strip()
 
-    else:
-        st.info("Enter a message to begin translation and support.")
+        # Translate final response into target language
+        final_translation_prompt = f"""
+        Translate the following text from English to {output_lang_name}:
 
-# 5. Run app
+        {response_in_english}
+        """
+
+        translated_response = llm.invoke([HumanMessage(content=final_translation_prompt)]).content.strip()
+
+        # Show response
+        st.success("✅ AI Response in Target Language:")
+        st.markdown(f"**🧠 English Response:** {response_in_english}")
+        st.markdown(f"**🌐 {output_lang_name} Response:** {translated_response}")
+
+        # Log the interaction
+        log_data = {
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "input_lang": input_lang_name,
+            "output_lang": output_lang_name,
+            "user_query": user_query,
+            "detected_input": english_text,
+            "response_english": response_in_english,
+            "response_translated": translated_response
+        }
+        log_df = pd.DataFrame([log_data])
+        log_file = "query_log.csv"
+
+        if os.path.exists(log_file):
+            existing_df = pd.read_csv(log_file)
+            log_df = pd.concat([existing_df, log_df], ignore_index=True)
+
+        log_df.to_csv(log_file, index=False)
+        st.info("📁 Query logged successfully!")
+
 if __name__ == "__main__":
     main()
